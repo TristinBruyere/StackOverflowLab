@@ -46,16 +46,33 @@ namespace StackOverflowLab.Controllers
         public IActionResult DeleteAnswer(int answerid)
         {
             Answer answer = DAL.GetAnswer(answerid);
-            DAL.DeleteAnswer(answerid);
-            return Redirect($"/Questions/Listanswers?questid={answer.questionid}");
+            if (answer.username == DAL.CurrentUser || DAL.CurrentUser == "Admin")
+            {
+                DAL.DeleteAnswer(answerid);
+                return Redirect($"/Questions/Listanswers?questid={answer.questionid}");
+            }
+            else
+            {
+                TempData["DeleteAnswerUsername"] = "*You cannot delete somebody elses answer.";
+                return Redirect($"/Questions/Listanswers?questid={answer.questionid}");
+            }
         }
         public IActionResult EditAnswerForm(int answerid)
         {
             Answer answer = DAL.GetAnswer(answerid);
-            return View(answer);
+            if (answer.username == DAL.CurrentUser || DAL.CurrentUser == "Admin")
+            {
+                return View(answer);
+            }
+            else
+            {
+                TempData["EditAnswerUsername"] = "*You cannot edit someone elses answer";
+                return Redirect($"/Questions/Listanswers?questid={answer.questionid}");
+            }
         }
         public IActionResult SaveAnswer(Answer answer)
         {
+            answer.username = DAL.CurrentUser;
             answer.posted = DateTime.Now;
             DAL.UpdateAnswer(answer);
             return Redirect($"/Questions/Listanswers?questid={answer.questionid}");

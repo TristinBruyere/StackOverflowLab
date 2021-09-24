@@ -4,7 +4,7 @@
 }
 
 <h1>Add New Answer</h1>
-@Model.id
+
 <form method="post" action="/answers/addanswer">
     <input type="hidden" name="questionid" value="@Model.id" />
     Detail: <input type="text" name="detail" /><br />
