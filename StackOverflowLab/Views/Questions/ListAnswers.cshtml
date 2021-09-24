@@ -1,0 +1,58 @@
+﻿@model QuestionAnswers
+@{
+    ViewData["Title"] = "ListAnswer";
+}
+
+<h1>ListAnswer</h1>
+
+<table class="table">
+    <tr>
+        <th>Username</th>
+        <th>Title</th>
+        <th>Details</th>
+        <th>Posted</th>
+        <th>Category</th>
+        <th>Tags</th>
+        <th>Status</th>
+    </tr>
+    <tbody>
+        <tr>
+            <td>@Model.quest.username</td>
+            <td>@Model.quest.title</td>
+            <td>@Model.quest.detail</td>
+            <td>@Model.quest.posted</td>
+            <td>@Model.quest.category</td>
+            <td>@Model.quest.tags</td>
+            <td>@Model.quest.status</td>
+        </tr>
+    </tbody>
+</table>
+<h2>Answers for the question</h2>
+<table class="table">
+    <tr>
+        <th>Username</th>
+        <th>Detail</th>
+        <th>Posted</th>
+        <th>Upvotes</th>
+        <th>Options</th>
+    </tr>
+    <tbody>
+        @foreach (Answer answer in Model.answers)
+        {
+        <tr>
+            <td>@answer.username</td>
+            <td>@answer.detail</td>
+            <td>@answer.posted</td>
+            <td>@answer.upvotes
+                <a asp-controller="Answers" asp-action="Upvote" asp-route-answerid="@answer.id" class="btn btn-primary">Upvote</a>
+                <a asp-controller="Answers" asp-action="Downvote" asp-route-answerid="@answer.id" class="btn btn-dark">Downvote</a>
+            </td>
+            <td>
+                <a asp-controller="Answers" asp-action="EditAnswerForm" asp-route-answerid="@answer.id" class="btn btn-primary">Edit</a>
+                <a asp-controller="Answers" asp-action="DeleteAnswer" asp-route-answerid="@answer.id" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<a href="/Answers/AddAnswerForm?question=@Model.quest.id" class="btn btn-primary">New Answer</a>

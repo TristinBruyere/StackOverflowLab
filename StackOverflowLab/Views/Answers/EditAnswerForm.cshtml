@@ -1,0 +1,15 @@
+﻿@model Answer
+@{
+    ViewData["Title"] = "EditAnswerForm";
+}
+
+<h1>Edit Answer Form</h1>
+
+<form method="post" action="/Answers/SaveAnswer">
+    <input type="hidden" name="id" value="@Model.id" />
+    Detail: <input type="text" name="detail" value="@Model.detail" /><br />
+    <input type="hidden" name="username" value="@Model.username" />
+    <input type="hidden" name="questionid" value="@Model.questionid" />
+    <input type="hidden" name="upvotes" value="@Model.upvotes" />
+    <input type="submit" value="Save" />
+</form>
